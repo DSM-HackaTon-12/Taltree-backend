@@ -1,28 +1,29 @@
 package org.example.taltree.domain.user.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.taltree.domain.user.dto.reponse.GetMypageResponseDto;
 import org.example.taltree.domain.user.exception.UserNotExistException;
 import org.example.taltree.domain.user.model.User;
 import org.example.taltree.domain.user.repository.UserRepository;
-import org.example.taltree.domain.user.usecase.GetMypageUseCase;
+import org.example.taltree.domain.user.usecase.ChangeToBasicProfileUseCase;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
-public class GetMypageServiceImpl implements GetMypageUseCase {
+public class ChangeToBasicProfileServiceImpl implements ChangeToBasicProfileUseCase {
 
     private final UserRepository userRepository;
 
     @Override
-    public GetMypageResponseDto getMypage(Authentication authentication) {
+    public void changeToBasicProfileUseCase(Authentication authentication) {
         User user = userRepository.findUserByUserId(Long.parseLong(authentication.getName())).orElseThrow(
                 () -> UserNotExistException.Exception
         );
 
-        return new GetMypageResponseDto(user.getUserId(), user.getProfile(), user.getUsername(), user.getEmail());
+        user.setProfile("https://taltree-s3.s3.ap-northeast-2.amazonaws.com/user.png");
+
+        userRepository.save(user);
     }
 }
