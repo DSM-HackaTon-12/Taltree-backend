@@ -5,9 +5,12 @@ import org.example.taltree.domain.user.dto.reponse.GetMypageResponseDto;
 import org.example.taltree.domain.user.dto.reponse.LoginResponseDto;
 import org.example.taltree.domain.user.dto.request.LoginRequestDto;
 import org.example.taltree.domain.user.dto.request.SignupRequestDto;
+import org.example.taltree.domain.user.dto.request.UpdateUserDataRequestDto;
 import org.example.taltree.domain.user.usecase.GetMypageUseCase;
 import org.example.taltree.domain.user.usecase.LoginUseCase;
 import org.example.taltree.domain.user.usecase.SignupUseCase;
+import org.example.taltree.domain.user.usecase.UpdateUserDataUseCase;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +22,7 @@ public class UserController {
     private final LoginUseCase loginUseCase;
     private final SignupUseCase signupUseCase;
     private final GetMypageUseCase getMypageUseCase;
+    private final UpdateUserDataUseCase updateUserDataUseCase;
 
     @PostMapping("/login")
     public LoginResponseDto login (@RequestBody LoginRequestDto loginRequestDto) {
@@ -26,6 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
+    @ResponseStatus(HttpStatus.CREATED)
     public void signup (@RequestBody SignupRequestDto signupRequestDto) {
         signupUseCase.signup(signupRequestDto);
     }
@@ -33,5 +38,10 @@ public class UserController {
     @GetMapping("/mypage")
     public GetMypageResponseDto getMypage (Authentication authentication) {
         return getMypageUseCase.getMypage(authentication);
+    }
+
+    @PatchMapping("/update/data")
+    public void updateUserData (Authentication authentication, @ModelAttribute UpdateUserDataRequestDto updateUserDataRequestDto) {
+        updateUserDataUseCase.updateUserData(authentication, updateUserDataRequestDto);
     }
 }
