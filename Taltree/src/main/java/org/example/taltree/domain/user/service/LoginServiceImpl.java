@@ -3,6 +3,8 @@ package org.example.taltree.domain.user.service;
 import lombok.RequiredArgsConstructor;
 import org.example.taltree.domain.user.dto.reponse.LoginResponseDto;
 import org.example.taltree.domain.user.dto.request.LoginRequestDto;
+import org.example.taltree.domain.user.exception.PasswordMismatchesException;
+import org.example.taltree.domain.user.exception.UserNotExistException;
 import org.example.taltree.domain.user.model.User;
 import org.example.taltree.domain.user.repository.UserRepository;
 import org.example.taltree.domain.user.usecase.LoginUseCase;
@@ -21,11 +23,11 @@ public class LoginServiceImpl implements LoginUseCase {
     @Override
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         User user = userRepository.findUserByEmail(loginRequestDto.email()).orElseThrow(
-                RuntimeException::new
+                () -> UserNotExistException.Exception
         );
 
         if(!bCryptPasswordEncoder.matches(loginRequestDto.password(), user.getPassword())) {
-            throw new RuntimeException();
+            throw PasswordMismatchesException.Exception;
         };
 
         return new LoginResponseDto(jwtProvider.generateAccess(user.getUserId()));
