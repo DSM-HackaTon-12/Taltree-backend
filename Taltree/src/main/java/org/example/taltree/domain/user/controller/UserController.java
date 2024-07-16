@@ -3,6 +3,8 @@ package org.example.taltree.domain.user.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.taltree.domain.user.dto.reponse.GetMypageResponseDto;
 import org.example.taltree.domain.user.dto.reponse.LoginResponseDto;
+import org.example.taltree.domain.user.dto.reponse.SendEmailResponseDto;
+import org.example.taltree.domain.user.dto.request.EmailDto;
 import org.example.taltree.domain.user.dto.request.LoginRequestDto;
 import org.example.taltree.domain.user.dto.request.SignupRequestDto;
 import org.example.taltree.domain.user.dto.request.UpdateUserDataRequestDto;
@@ -21,6 +23,7 @@ public class UserController {
     private final GetMypageUseCase getMypageUseCase;
     private final UpdateUserDataUseCase updateUserDataUseCase;
     private final ChangeToBasicProfileUseCase changeToBasicProfileUseCase;
+    private final SendEmailUseCase sendEmailUseCase;
 
     @PostMapping("/login")
     public LoginResponseDto login (@RequestBody LoginRequestDto loginRequestDto) {
@@ -46,5 +49,10 @@ public class UserController {
     @PatchMapping("/update/basic")
     public void changeToBasicProfile (Authentication authentication) {
         changeToBasicProfileUseCase.changeToBasicProfileUseCase(authentication);
+    }
+
+    @PostMapping("/email/send")
+    public SendEmailResponseDto sendEmail (@RequestBody EmailDto emailDto) {
+        return sendEmailUseCase.sendEmail(emailDto);
     }
 }
