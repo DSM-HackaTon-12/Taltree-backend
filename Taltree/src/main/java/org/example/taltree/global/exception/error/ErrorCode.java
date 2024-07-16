@@ -10,6 +10,7 @@ public enum ErrorCode {
     // User
     PASSWORD_MISMATCHES(403, "비밀번호가 맞지 않습니다"),
     USER_NOT_FOUND(404, "유저를 찾을 수 없습니다"),
+    EMAIL_ALREADY_EXIST(409, "이미 가입된 이메일"),
 
     // General
     BAD_REQUEST(500, "서버 오류"),

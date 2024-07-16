@@ -19,3 +19,7 @@ jwt:
   header: ${JWT_HEADER}
   secret: ${JWT_SECRET}
   accessExpiration: ${JWT_ACCESS_TIME}
+
+# user's profile
+profile:
+  basic: ${USER_BASIC_PROFILE}
