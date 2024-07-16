@@ -26,6 +26,6 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return Long.toString(userId);
     }
 }
