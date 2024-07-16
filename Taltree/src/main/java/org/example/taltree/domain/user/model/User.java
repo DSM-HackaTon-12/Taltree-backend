@@ -36,6 +36,6 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.profile = profile;
+        this.profile = profile != null ? profile : "https://taltree-s3.s3.ap-northeast-2.amazonaws.com/user.png";
     }
 }
